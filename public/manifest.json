@@ -1,5 +1,6 @@
 {
   "id": "/",
+  "scope": "/",
   "name": "FitSync",
   "short_name": "FitSync",
   "start_url": "/",
@@ -24,6 +25,12 @@
       "sizes": "360x640",
       "type": "image/jpg",
       "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot.jpg",
+      "sizes": "360x640",
+      "type": "image/jpg",
+      "form_factor": "wide"
     }
   ]
 }
