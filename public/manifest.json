@@ -1,6 +1,7 @@
 {
+  "id": "/",
   "name": "FitSync",
-  "short_name": "FS",
+  "short_name": "FitSync",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -15,6 +16,14 @@
       "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot.jpg",
+      "sizes": "360x640",
+      "type": "image/jpg",
+      "form_factor": "narrow"
     }
   ]
 }
