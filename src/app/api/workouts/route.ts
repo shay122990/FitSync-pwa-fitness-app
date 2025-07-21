@@ -2,19 +2,34 @@ import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongo";
 import type { Workout } from "@/types/workout";
 
+// export async function GET() {
+//   const client = await clientPromise;
+//   const db = client.db("fitsync");
+
+//   const workouts = await db
+//     .collection<Workout>("workouts")
+//     .find()
+//     .sort({ _id: -1 })
+//     .toArray();
+
+//   return NextResponse.json(workouts);
+// }
+
 export async function GET() {
-  const client = await clientPromise;
-  const db = client.db("fitsync");
+  try {
+    console.log("Connecting to Mongo...");
+    const client = await clientPromise;
+    console.log("Connected");
 
-  const workouts = await db
-    .collection<Workout>("workouts")
-    .find()
-    .sort({ _id: -1 })
-    .toArray();
+    const db = client.db("fitsync");
+    const workouts = await db.collection<Workout>("workouts").find().sort({ _id: -1 }).toArray();
 
-  return NextResponse.json(workouts);
+    return NextResponse.json(workouts);
+  } catch (error) {
+    console.error("API error in GET /api/workouts:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
 }
-
 
 
 export async function POST(req: Request) {
