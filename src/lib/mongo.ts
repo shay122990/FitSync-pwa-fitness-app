@@ -1,9 +1,17 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
-if (!uri) throw new Error("Missing MONGODB_URI");
+const uri =
+  process.env.NODE_ENV === "development"
+    ? process.env.MONGODB_URI_DEV
+    : process.env.MONGODB_URI;
 
-const options = {};
+if (!uri) throw new Error("Missing MongoDB connection string");
+
+const options = {
+  tls: true,
+  tlsAllowInvalidCertificates: process.env.NODE_ENV === "development",
+};
+
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
