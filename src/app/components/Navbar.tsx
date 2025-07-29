@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Dumbbell, BarChart2, User } from "lucide-react";
+import { Home, Dumbbell, BarChart2, User, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/workouts", icon: Dumbbell, label: "Workouts" },
+  { href: "/workouts/explore", icon: Search, label: "Explore" },
   { href: "/progress", icon: BarChart2, label: "Progress" },
   { href: "/profile", icon: User, label: "Profile" },
 ];
