@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ExerciseInfo } from "@/types/workout";
+import ExerciseCard from "../components/ExerciseCard";
 
 export default function ExploreWorkouts() {
   const [groupedExercises, setGroupedExercises] = useState<
@@ -53,29 +54,11 @@ export default function ExploreWorkouts() {
             <h2 className="text-xl font-semibold mb-3 text-purple-400">
               {category}
             </h2>
+
             <div className="h-80 overflow-y-auto pr-2 space-y-4 custom-scrollbar">
-              {exercises.map((exercise) => {
-                const english = exercise.translations.find(
-                  (t) => t.language === 2
-                );
-                return (
-                  <div
-                    key={exercise.id}
-                    className="bg-gray-800 rounded p-3 shadow-sm"
-                  >
-                    <h3 className="text-md font-semibold mb-1">
-                      {english?.name || "Unnamed"}
-                    </h3>
-                    <div
-                      className="text-sm text-gray-300"
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          english?.description || "No description available.",
-                      }}
-                    />
-                  </div>
-                );
-              })}
+              {exercises.map((exercise) => (
+                <ExerciseCard key={exercise.id} exercise={exercise} />
+              ))}
             </div>
           </div>
         ))}
