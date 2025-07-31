@@ -1,47 +1,95 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Workout } from "@/types/workout";
+import type { ExerciseInfo } from "@/types/workout";
 
-export default function WorkoutsPage() {
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function ExploreWorkouts() {
+  const [groupedExercises, setGroupedExercises] = useState<
+    Record<string, ExerciseInfo[]>
+  >({});
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      const res = await fetch("/api/workouts");
-      const data = await res.json();
-      setWorkouts(data);
-      setLoading(false);
+    const fetchExercises = async () => {
+      try {
+        const res = await fetch(
+          "https://wger.de/api/v2/exerciseinfo/?language=2&status=2&limit=100"
+        );
+        const data = await res.json();
+
+        const filtered = data.results.filter((exercise: ExerciseInfo) => {
+          const english = exercise.translations.find((t) => t.language === 2);
+          return (
+            english?.name?.trim() &&
+            english?.description?.trim() &&
+            exercise.category?.name
+          );
+        });
+
+        const grouped: Record<string, ExerciseInfo[]> = {};
+        filtered.forEach((exercise: ExerciseInfo) => {
+          const category = exercise.category.name || "Other";
+          if (!grouped[category]) grouped[category] = [];
+          grouped[category].push(exercise);
+        });
+
+        setGroupedExercises(grouped);
+      } catch (err) {
+        console.error("Failed to fetch:", err);
+      }
     };
 
-    fetchWorkouts();
+    fetchExercises();
   }, []);
 
   return (
-    <main className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Your Workouts</h1>
+    <main className="p-4 max-w-6xl mx-auto text-white">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Explore Exercises by Category
+      </h1>
 
-      {loading ? (
-        <p className="text-gray-500">Loading...</p>
-      ) : workouts.length === 0 ? (
-        <p className="text-gray-500">No workouts found.</p>
-      ) : (
-        <ul className="space-y-3">
-          {workouts.map((w) => (
-            <li
-              key={w._id}
-              className="border rounded p-3 shadow-sm bg-white dark:bg-gray-800"
-            >
-              <h2 className="font-semibold">{w.name}</h2>
-              <p className="text-sm">
-                {w.sets} sets × {w.reps} reps
-                {w.duration ? ` · ${w.duration}` : ""}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {Object.entries(groupedExercises).map(([category, exercises]) => (
+          <div key={category} className="bg-gray-900 rounded-lg shadow p-4">
+            <h2 className="text-xl font-semibold mb-3 text-purple-400">
+              {category}
+            </h2>
+
+            <div className="h-80 overflow-y-auto pr-2 space-y-4 custom-scrollbar">
+              {exercises.map((exercise) => (
+                <ExerciseCard key={exercise.id} exercise={exercise} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </main>
+  );
+}
+
+function ExerciseCard({ exercise }: { exercise: ExerciseInfo }) {
+  const [expanded, setExpanded] = useState(false);
+  const english = exercise.translations.find((t) => t.language === 2);
+  const description = english?.description || "No description available.";
+
+  return (
+    <div className="bg-gray-800 rounded p-3 shadow-sm">
+      <h3 className="text-md font-semibold mb-1">
+        {english?.name || "Unnamed"}
+      </h3>
+      <div
+        className={`text-sm text-gray-300 transition-all duration-300 ease-in-out ${
+          expanded ? "" : "line-clamp-3"
+        }`}
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
+      {description.length > 120 && (
+        <button
+          className="mt-1 text-purple-400 text-xs underline"
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded ? "Show less" : "Show more"}
+        </button>
+      )}
+    </div>
   );
 }

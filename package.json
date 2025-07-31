@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@types/minimatch": "^6.0.0",
     "import": "^0.0.6",
     "lucide-react": "^0.525.0",
