@@ -2,21 +2,41 @@
 
 import { useEffect, useState } from "react";
 import type { Workout } from "@/types/workout";
+import { fetchWorkouts, deleteWorkout } from "@/lib/api";
 
 export default function WorkoutsPage() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      const res = await fetch("/api/workouts");
-      const data = await res.json();
-      setWorkouts(data);
-      setLoading(false);
+    const loadWorkouts = async () => {
+      try {
+        const data = await fetchWorkouts();
+        setWorkouts(data);
+      } catch (error) {
+        console.error("Error fetching workouts:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchWorkouts();
+    loadWorkouts();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this workout?"
+    );
+    if (!confirmed) return;
+
+    try {
+      await deleteWorkout(id);
+      setWorkouts((prev) => prev.filter((w) => w._id !== id));
+    } catch (error) {
+      console.error("Failed to delete workout:", error);
+      alert(error instanceof Error ? error.message : "Delete failed");
+    }
+  };
 
   return (
     <main className="p-4 max-w-md mx-auto">
@@ -33,11 +53,21 @@ export default function WorkoutsPage() {
               key={w._id}
               className="border rounded p-3 shadow-sm bg-white dark:bg-gray-800"
             >
-              <h2 className="font-semibold">{w.name}</h2>
-              <p className="text-sm">
-                {w.sets} sets × {w.reps} reps
-                {w.duration ? ` · ${w.duration}` : ""}
-              </p>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="font-semibold">{w.name}</h2>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                    {w.sets} sets × {w.reps} reps
+                    {w.duration ? ` · ${w.duration}` : ""}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleDelete(w._id)}
+                  className="text-xs text-red-500 hover:underline"
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>

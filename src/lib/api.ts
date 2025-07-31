@@ -16,3 +16,15 @@ export async function createWorkout(data: NewWorkout): Promise<{ success: boolea
   if (!res.ok) throw new Error('Failed to create workout');
   return res.json();
 }
+export async function deleteWorkout(id: string): Promise<{ success: boolean }> {
+  const res = await fetch(`/api/workouts/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "Failed to delete workout");
+  }
+
+  return res.json();
+}
