@@ -36,14 +36,23 @@ export default function ExerciseCard({ exercise }: Props) {
   };
 
   return (
-    <div className="bg-gray-800 rounded p-3 shadow-sm">
-      <h3 className="text-md font-semibold mb-1">{name}</h3>
+    <div className="bg-gray-800 rounded-md p-3 shadow-sm text-white text-sm">
+      <div className="flex justify-between items-center">
+        <h3 className="text-base font-semibold">{name}</h3>
+        <button
+          onClick={handleSave}
+          disabled={saved || saving}
+          className={`text-xs px-2 py-1 rounded ${
+            saved || saving
+              ? "bg-purple-500 opacity-50 cursor-not-allowed"
+              : "bg-purple-600 hover:bg-purple-700"
+          }`}
+        >
+          {saved ? "Saved" : saving ? "Saving..." : "Save"}
+        </button>
+      </div>
 
-      <div
-        className={`text-sm text-gray-300 transition-all duration-300 ease-in-out ${
-          expanded ? "" : "line-clamp-3"
-        }`}
-      >
+      <div className={`mt-2 text-gray-300 ${expanded ? "" : "line-clamp-3"}`}>
         <div dangerouslySetInnerHTML={{ __html: description }} />
       </div>
 
@@ -55,16 +64,6 @@ export default function ExerciseCard({ exercise }: Props) {
           {expanded ? "Show less" : "Show more"}
         </button>
       )}
-
-      <button
-        onClick={handleSave}
-        disabled={saved || saving}
-        className={`mt-3 inline-block px-3 py-1 text-xs font-medium rounded bg-purple-600 hover:bg-purple-700 text-white ${
-          saved ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
-        {saved ? "Saved" : saving ? "Saving..." : "Save to Workouts"}
-      </button>
     </div>
   );
 }
