@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    console.log("🔍 DELETE workout", params.id);
+    const { id } = context.params;
+    console.log("🔍 DELETE workout", id);
 
-    if (!ObjectId.isValid(params.id)) {
+    if (!ObjectId.isValid(id)) {
       return new NextResponse("Invalid ID format", { status: 400 });
     }
 
@@ -17,7 +18,7 @@ export async function DELETE(
     const db = client.db("fitsync");
     const result = await db
       .collection("workouts")
-      .deleteOne({ _id: new ObjectId(params.id) });
+      .deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
       return new NextResponse("Workout not found", { status: 404 });
