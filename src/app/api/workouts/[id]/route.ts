@@ -7,8 +7,8 @@ export async function DELETE(
   context: { params: { id: string } }
 ) {
   try {
-    const { id } = context.params;
-    console.log("🔍 DELETE workout", id);
+    const id = context.params.id;
+    console.log("Deleting workout with ID:", id);
 
     if (!ObjectId.isValid(id)) {
       return new NextResponse("Invalid ID format", { status: 400 });
@@ -26,7 +26,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("❌ DELETE /api/workouts/[id] error:", error);
-    return new NextResponse(`Failed to delete: ${error}`, { status: 500 });
+    console.error("DELETE error:", error);
+    return new NextResponse("Failed to delete workout", { status: 500 });
   }
 }
