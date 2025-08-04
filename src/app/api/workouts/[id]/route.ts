@@ -2,15 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest) {
   try {
-    const id = context.params.id;
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop();
+
     console.log("Deleting workout with ID:", id);
 
-    if (!ObjectId.isValid(id)) {
+    if (!id || !ObjectId.isValid(id)) {
       return new NextResponse("Invalid ID format", { status: 400 });
     }
 
