@@ -1,6 +1,7 @@
-// For your local MongoDB workouts
+// For local MongoDB workouts
 export interface Workout {
   _id: string;
+  userId: string; 
   name: string;
   sets: number;
   reps: number;
@@ -9,6 +10,7 @@ export interface Workout {
 
 // For creating new workouts (no _id yet)
 export interface NewWorkout {
+  userId: string; 
   name: string;
   sets: number;
   reps: number;
@@ -16,7 +18,6 @@ export interface NewWorkout {
 }
 
 // For fetching exercise info from Wger API
-// types/wger.ts
 export interface ExerciseInfo {
   id: number;
   category: {
@@ -29,8 +30,3 @@ export interface ExerciseInfo {
     language: number;
   }[];
 }
-
-
-
-
-
