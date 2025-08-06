@@ -15,7 +15,7 @@
     "import": "^0.0.6",
     "lucide-react": "^0.525.0",
     "minimatch": "^10.0.3",
-    "mongodb": "^6.17.0",
+    "mongodb": "^5.9.2",
     "next": "15.3.5",
     "next-auth": "^4.24.11",
     "next-pwa": "^5.6.0",
