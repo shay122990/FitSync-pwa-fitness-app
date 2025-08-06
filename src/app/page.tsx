@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import type { NewWorkout } from "@/types/workout";
 
 export default function HomePage() {
+  const { data: session } = useSession();
+
   const [form, setForm] = useState<NewWorkout>({
+    userId: "", // initially empty
     name: "",
     sets: 0,
     reps: 0,
@@ -13,6 +17,13 @@ export default function HomePage() {
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Inject the userId once session loads
+  useEffect(() => {
+    if (session?.user?.id) {
+      setForm((prev) => ({ ...prev, userId: session.user.id }));
+    }
+  }, [session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,7 +45,13 @@ export default function HomePage() {
     });
 
     if (res.ok) {
-      setForm({ name: "", sets: 0, reps: 0, duration: "" });
+      setForm({
+        userId: session?.user?.id || "", // reset with userId
+        name: "",
+        sets: 0,
+        reps: 0,
+        duration: "",
+      });
       setSuccess(true);
     } else {
       alert("Failed to create workout");
@@ -56,8 +73,8 @@ export default function HomePage() {
             placeholder="Workout Name"
             value={form.name}
             onChange={handleChange}
-            className="w-full border border-gray-300 dark:border-gray-700 bg-transparent text-sm px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
             required
+            className="input"
           />
           <input
             name="sets"
@@ -65,8 +82,8 @@ export default function HomePage() {
             placeholder="Sets"
             value={form.sets}
             onChange={handleChange}
-            className="w-full border border-gray-300 dark:border-gray-700 bg-transparent text-sm px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
             required
+            className="input"
           />
           <input
             name="reps"
@@ -74,20 +91,20 @@ export default function HomePage() {
             placeholder="Reps"
             value={form.reps}
             onChange={handleChange}
-            className="w-full border border-gray-300 dark:border-gray-700 bg-transparent text-sm px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
             required
+            className="input"
           />
           <input
             name="duration"
             placeholder="Duration (optional)"
             value={form.duration}
             onChange={handleChange}
-            className="w-full border border-gray-300 dark:border-gray-700 bg-transparent text-sm px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="input"
           />
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white text-sm py-2 rounded hover:bg-purple-700 transition duration-200"
             disabled={loading}
+            className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
           >
             {loading ? "Saving..." : "Create Workout"}
           </button>
@@ -102,7 +119,7 @@ export default function HomePage() {
         <div className="text-center pt-4">
           <a
             href="/workouts"
-            className="inline-block text-sm text-purple-600 hover:text-purple-800 transition-colors underline"
+            className="inline-block text-sm text-purple-600 hover:text-purple-800 underline"
           >
             View all workouts →
           </a>

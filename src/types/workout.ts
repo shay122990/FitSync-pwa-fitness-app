@@ -1,7 +1,7 @@
 // For local MongoDB workouts
 export interface Workout {
   _id: string;
-  userId: string;
+  userId?: string;
   wgerId?: number;  
   name: string;
   sets: number;
@@ -11,7 +11,7 @@ export interface Workout {
 
 // For creating new workouts (no _id yet)
 export interface NewWorkout {
-  userId: string; 
+  userId?: string; 
   wgerId?: number;
   name: string;
   sets: number;
