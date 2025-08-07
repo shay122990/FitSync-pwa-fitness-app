@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import type { NewWorkout } from "@/types/workout";
 
 export default function HomePage() {
-  const { data: session } = useSession();
+  const { user } = useUser();
 
   const [form, setForm] = useState<NewWorkout>({
-    userId: "", // initially empty
+    userId: "",
     name: "",
     sets: 0,
     reps: 0,
@@ -18,12 +18,12 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Inject the userId once session loads
+  // Inject Clerk userId once it's available
   useEffect(() => {
-    if (session?.user?.id) {
-      setForm((prev) => ({ ...prev, userId: session.user.id }));
+    if (user?.id) {
+      setForm((prev) => ({ ...prev, userId: user.id }));
     }
-  }, [session]);
+  }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,7 +46,7 @@ export default function HomePage() {
 
     if (res.ok) {
       setForm({
-        userId: session?.user?.id || "", // reset with userId
+        userId: user?.id || "",
         name: "",
         sets: 0,
         reps: 0,

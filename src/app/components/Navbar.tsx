@@ -1,15 +1,17 @@
+// components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
 import { Home, Dumbbell, BarChart2, User, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 const navLinks = [
-  { href: "/", icon: Home, label: "Home" },
-  { href: "/workouts", icon: Dumbbell, label: "Workouts" },
-  { href: "/workouts/explore", icon: Search, label: "Explore" },
-  { href: "/progress", icon: BarChart2, label: "Progress" },
-  { href: "/profile", icon: User, label: "Profile" },
+  { href: "/", icon: Home },
+  { href: "/workouts", icon: Dumbbell },
+  { href: "/workouts/explore", icon: Search },
+  { href: "/progress", icon: BarChart2 },
+  { href: "/profile", icon: User },
 ];
 
 export default function Navbar() {
@@ -17,7 +19,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black text-white border-b border-gray-800">
-      <ul className="flex justify-around items-center py-3">
+      <ul className="flex justify-around items-center py-3 px-4">
         {navLinks.map(({ href, icon: Icon }) => {
           const isActive = pathname === href;
 
@@ -32,13 +34,23 @@ export default function Navbar() {
                   }`}
                 >
                   <Icon size={24} />
-                  {/* Optional: Uncomment to show labels below icons */}
-                  {/* <span className="text-[10px]">{label}</span> */}
                 </div>
               </Link>
             </li>
           );
         })}
+        <li className="ml-4">
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="text-sm text-gray-300 hover:text-lime-400">
+                Sign In
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+        </li>
       </ul>
     </nav>
   );
