@@ -1,17 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import type { Workout } from "@/types/workout";
 import { fetchWorkouts, deleteWorkout } from "@/lib/api";
 
 export default function WorkoutsPage() {
+  const { user } = useUser();
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!user?.id) return;
+
     const loadWorkouts = async () => {
       try {
-        const data = await fetchWorkouts();
+        const data = await fetchWorkouts(user.id);
         setWorkouts(data);
       } catch (error) {
         console.error("Error fetching workouts:", error);
@@ -21,7 +25,7 @@ export default function WorkoutsPage() {
     };
 
     loadWorkouts();
-  }, []);
+  }, [user?.id]);
 
   const handleDelete = async (id: string) => {
     const confirmed = window.confirm(
@@ -75,4 +79,3 @@ export default function WorkoutsPage() {
     </main>
   );
 }
-  
