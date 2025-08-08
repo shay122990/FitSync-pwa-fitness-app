@@ -23,6 +23,7 @@ export default function ExerciseCard({ exercise }: Props) {
     setSaving(true);
     try {
       await createWorkout({
+        wgerId: exercise.id,
         name,
         sets: 3,
         reps: 10,
