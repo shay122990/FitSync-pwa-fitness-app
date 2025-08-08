@@ -31,10 +31,10 @@ export default function WorkoutsPage() {
     const confirmed = window.confirm(
       "Are you sure you want to delete this workout?"
     );
-    if (!confirmed) return;
+    if (!confirmed || !user?.id) return;
 
     try {
-      await deleteWorkout(id);
+      await deleteWorkout(id, user.id);
       setWorkouts((prev) => prev.filter((w) => w._id !== id));
     } catch (error) {
       console.error("Failed to delete workout:", error);

@@ -16,8 +16,8 @@ export async function createWorkout(data: NewWorkout): Promise<{ success: boolea
   if (!res.ok) throw new Error('Failed to create workout');
   return res.json();
 }
-export async function deleteWorkout(id: string): Promise<{ success: boolean }> {
-  const res = await fetch(`/api/workouts/${id}`, {
+export async function deleteWorkout(id: string, userId: string): Promise<{ success: boolean }> {
+  const res = await fetch(`/api/workouts/${id}?userId=${userId}`, {
     method: "DELETE",
   });
 
