@@ -9,7 +9,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 const navLinks = [
   { href: "/", icon: Home },
   { href: "/workouts", icon: Dumbbell },
-  { href: "/workouts/explore", icon: Search },
+  { href: "/explore", icon: Search },
   { href: "/progress", icon: BarChart2 },
   { href: "/profile", icon: User },
 ];

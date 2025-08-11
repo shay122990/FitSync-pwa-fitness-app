@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import type { ExerciseInfo } from "@/types/workout";
 import { createWorkout } from "@/lib/api";
 
@@ -8,10 +9,18 @@ interface Props {
   exercise: ExerciseInfo;
 }
 
+function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  if (typeof err === "string") return err;
+  return "Failed to save workout";
+}
+
 export default function ExerciseCard({ exercise }: Props) {
+  const { user, isLoaded } = useUser();
   const [expanded, setExpanded] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
 
   const english = exercise.translations.find((t) => t.language === 2);
   const name = english?.name || "Unnamed";
@@ -19,18 +28,25 @@ export default function ExerciseCard({ exercise }: Props) {
 
   const handleSave = async () => {
     if (saved || saving) return;
+    if (!user?.id) {
+      setErr("You need to sign in to save workouts.");
+      return;
+    }
 
     setSaving(true);
+    setErr(null);
     try {
-      await createWorkout({
+      await createWorkout(user.id, {
         wgerId: exercise.id,
         name,
         sets: 3,
         reps: 10,
       });
       setSaved(true);
-    } catch (err) {
-      console.error("Failed to save workout", err);
+    } catch (e: unknown) {
+      const message = getErrorMessage(e);
+      setErr(message);
+      console.error("Failed to save workout:", message);
     } finally {
       setSaving(false);
     }
@@ -42,9 +58,9 @@ export default function ExerciseCard({ exercise }: Props) {
         <h3 className="text-base font-semibold">{name}</h3>
         <button
           onClick={handleSave}
-          disabled={saved || saving}
+          disabled={saved || saving || !isLoaded || !user?.id}
           className={`text-xs px-2 py-1 rounded ${
-            saved || saving
+            saved || saving || !user?.id
               ? "bg-purple-500 opacity-50 cursor-not-allowed"
               : "bg-purple-600 hover:bg-purple-700"
           }`}
@@ -65,6 +81,8 @@ export default function ExerciseCard({ exercise }: Props) {
           {expanded ? "Show less" : "Show more"}
         </button>
       )}
+
+      {err && <p className="mt-2 text-xs text-red-400">{err}</p>}
     </div>
   );
 }
