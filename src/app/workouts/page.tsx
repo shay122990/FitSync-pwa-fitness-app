@@ -6,7 +6,7 @@ import type { Workout } from "@/types/workout";
 import { fetchWorkouts, deleteWorkout } from "@/lib/api";
 
 export default function WorkoutsPage() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,6 +41,24 @@ export default function WorkoutsPage() {
       alert(error instanceof Error ? error.message : "Delete failed");
     }
   };
+
+  if (!isLoaded) {
+    return (
+      <main className="p-4 max-w-md mx-auto">
+        <p className="text-gray-500">Loading...</p>
+      </main>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="p-4 max-w-md mx-auto">
+        <p className="text-red-500">
+          You must be signed in to view your workouts.
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main className="p-4 max-w-md mx-auto">
