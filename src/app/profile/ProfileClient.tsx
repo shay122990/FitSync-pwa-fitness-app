@@ -1,11 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 interface Props {
   userId: string | null;
   name: string;
 }
 
 export default function ProfileClient({ userId, name }: Props) {
+  const router = useRouter();
+
   if (!userId) {
     return (
       <div className="p-6 text-red-500">
@@ -15,9 +19,16 @@ export default function ProfileClient({ userId, name }: Props) {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 space-y-4">
       <h1 className="text-2xl font-bold">Welcome back {name}!</h1>
-      <p className="mt-2 text-gray-400">Your user ID is: {userId}</p>
+      <p className="text-gray-400">Your user ID is: {userId}</p>
+
+      <button
+        onClick={() => router.push("/")}
+        className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+      >
+        Go to Home
+      </button>
     </div>
   );
 }
