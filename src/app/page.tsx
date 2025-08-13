@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useUser, SignInButton } from "@clerk/nextjs";
 import WorkoutForm from "./components/WorkoutForm";
+import Link from "next/link";
 
 export default function HomePage() {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -61,12 +62,12 @@ export default function HomePage() {
               }
             />
             <div className="text-center pt-2">
-              <a
+              <Link
                 href="/workouts"
                 className="inline-block text-sm text-purple-600 hover:text-purple-800 underline"
               >
                 View all workouts →
-              </a>
+              </Link>
             </div>
           </>
         )}
