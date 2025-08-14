@@ -39,7 +39,7 @@ export default function Navbar() {
             </li>
           );
         })}
-        <li className="ml-4">
+        <li className="flex justify-center">
           <SignedOut>
             <SignInButton mode="modal">
               <button className="text-sm text-gray-300 hover:text-lime-400">
