@@ -1,8 +1,7 @@
-// components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
-import { Home, Dumbbell, BarChart2, User, Search } from "lucide-react";
+import { Home, Dumbbell, BarChart2, User, Search, LogIn } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
@@ -42,8 +41,9 @@ export default function Navbar() {
         <li className="flex justify-center">
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="text-sm text-gray-300 hover:text-lime-400">
-                Sign In
+              <button className=" flex flex-col justify-center items-center text-sm text-gray-300 hover:text-lime-400">
+                <LogIn size={10} />
+                Log In
               </button>
             </SignInButton>
           </SignedOut>
