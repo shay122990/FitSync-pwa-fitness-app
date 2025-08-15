@@ -17,7 +17,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-black text-white border-b border-gray-800">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-deep border-b border-gray-800">
       <ul className="flex justify-around items-center py-3 px-4">
         {navLinks.map(({ href, icon: Icon }) => {
           const isActive = pathname === href;
@@ -28,8 +28,8 @@ export default function Navbar() {
                 <div
                   className={`flex flex-col items-center gap-1 text-xs transition-colors duration-200 ${
                     isActive
-                      ? "text-lime-400"
-                      : "text-gray-300 hover:text-lime-400"
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary"
                   }`}
                 >
                   <Icon size={24} />
@@ -41,7 +41,7 @@ export default function Navbar() {
         <li className="flex justify-center">
           <SignedOut>
             <SignInButton mode="modal">
-              <button className=" flex flex-col justify-center items-center text-sm text-gray-300 hover:text-lime-400">
+              <button className=" flex flex-col justify-center items-center text-sm text-foreground hover:text-primary">
                 <LogIn size={10} />
                 Log In
               </button>

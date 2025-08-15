@@ -36,10 +36,10 @@ export default function RootLayout({
           <meta name="theme-color" content="#0f172a" />
         </head>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background flex flex-col gap-10`}
         >
           <Navbar />
-          <main className="mt-16">{children}</main>
+          {children}
         </body>
       </html>
     </ClerkProvider>
