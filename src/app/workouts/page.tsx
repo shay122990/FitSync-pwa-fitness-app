@@ -149,7 +149,7 @@ export default function WorkoutsPage() {
                          w-full md:w-80 flex flex-col"
             >
               <header className="px-4 py-3 border-b border-gray-200 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 rounded-t-2xl">
-                <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <h2 className="text-lg font-semibold text-highlight">
                   {formatDateHeading(date)}
                 </h2>
               </header>
