@@ -78,8 +78,8 @@ export default function ProgressPage() {
 
   return (
     <main className="min-h-screen bg-bg text-fg p-6 max-w-3xl mx-auto">
-      <header className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold">
+      <header className="flex flex-col gap-6 items-center justify-between mb-6">
+        <h1 className="text-xl font-semibold text-highlight">
           Workout Progress — {getMonthName(displayMonth)} {displayYear}
         </h1>
         <div className="flex gap-2">
