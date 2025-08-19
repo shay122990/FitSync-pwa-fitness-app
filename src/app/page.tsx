@@ -24,7 +24,7 @@ export default function HomePage() {
   }, [user]);
 
   return (
-    <main className="min-h-screen bg-background px-4 py-12 flex flex-col items-center justify-center">
+    <main className=" bg-background px-4 py-12 flex flex-col  justify-center">
       <div className="w-full max-w-xl bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-6 space-y-6">
         <section className="space-y-1">
           <h1 className="text-2xl font-semibold text-gray-800 dark:text-white tracking-tight">

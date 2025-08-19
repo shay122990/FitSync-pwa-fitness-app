@@ -14,5 +14,12 @@ export default async function ProfilePage() {
     user.primaryEmailAddress?.emailAddress ||
     user.id;
 
-  return <ProfileClient name={name} userId={user.id} />;
+  return (
+    <ProfileClient
+      name={name}
+      userId={user.id}
+      email={user.primaryEmailAddress?.emailAddress}
+      imageUrl={user.imageUrl}
+    />
+  );
 }
