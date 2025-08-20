@@ -61,8 +61,8 @@ export default function ExerciseCard({ exercise }: Props) {
           disabled={saved || saving || !isLoaded || !user?.id}
           className={`text-xs px-2 py-1 rounded ${
             saved || saving || !user?.id
-              ? "bg-purple-500 opacity-50 cursor-not-allowed"
-              : "bg-purple-600 hover:bg-purple-700"
+              ? "bg-deep opacity-50 cursor-not-allowed"
+              : "bg-deep hover:bg-purple-700"
           }`}
         >
           {saved ? "Saved" : saving ? "Saving..." : "Save"}
@@ -75,7 +75,7 @@ export default function ExerciseCard({ exercise }: Props) {
 
       {description.length > 120 && (
         <button
-          className="mt-1 text-purple-400 text-xs underline"
+          className="mt-1 text-deep text-xs underline"
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? "Show less" : "Show more"}
