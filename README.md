@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FitSync
 
-## Getting Started
+A progressive web app (PWA) for tracking workouts and fitness goals. Built with **Next.js**, styled using **Tailwind CSS**, and powered by **MongoDB** for persistent data storage. Authentication and user management are handled via **Clerk**.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 📱 **Progressive Web App** (offline support with `next-pwa`)
+- 🔑 **Authentication** with Clerk (`@clerk/nextjs`)
+- 🗄 **Database** integration with MongoDB
+- 🎨 **Modern UI** using Tailwind CSS + Lucide Icons
+- 📊 **Workout tracking** with customizable routines
+- 🌙 **Responsive design** for mobile and desktop
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js 15](https://nextjs.org/)
+- **Authentication:** [Clerk](https://clerk.com/)
+- **Database:** [MongoDB](https://www.mongodb.com/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) + [Lucide React Icons](https://lucide.dev/)
+- **PWA Support:** [next-pwa](https://github.com/shadowwalker/next-pwa)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Packages Used
 
-## Learn More
+- `next` – React framework for production-ready apps
+- `react` / `react-dom` – Core React libraries
+- `@clerk/nextjs` – Authentication & user management
+- `mongodb` – Database client
+- `tailwindcss` / `postcss` / `autoprefixer` – Styling setup
+- `lucide-react` – Icon library
+- `next-pwa` – Adds PWA capabilities
+- `eslint` + configs – Linting and code quality
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repo:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   git clone https://github.com/shay122990/FitSync-pwa-fitness-app
+   cd workout-pwa
+   ```
 
-## Deploy on Vercel
+````
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Install dependencies:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+
+   Create a `.env.local` file with:
+
+   ```env
+   # === MongoDB ===
+   MONGODB_URI_DEV=get_the_UrI_from_mongodb
+
+   # === Clerk Auth ===
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=text_key
+   CLERK_SECRET_KEY=sk_key
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/profile
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/profile
+
+   # === Base URL ===
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   ```
+
+   Create a `.env.production` file with:
+
+   ```env
+   # === MongoDB ===
+   MONGODB_URI=get_the_UrI_from_mongodb
+
+   # === Clerk Auth ===
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=text_key
+   CLERK_SECRET_KEY=sk_key
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/profile
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/profile
+
+   # === Base URL ===
+   NEXT_PUBLIC_BASE_URL=your_vercel_published_url
+   ```
+
+4. **Run the dev server:**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for production:**
+
+   ```bash
+   npm run build
+   npm start
+   ```
+
+## 📱 PWA Setup
+
+- Installable on mobile & desktop.
+- Works offline with caching.
+
+## 📖 Scripts
+
+- `npm run dev` → Start dev server
+- `npm run build` → Build for production
+- `npm start` → Run production server
+- `npm run lint` → Lint code
+
+## 📝 License
+
+MIT License © 2025
+
+````
